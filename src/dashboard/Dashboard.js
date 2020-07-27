@@ -21,7 +21,6 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import { mainListItems, secondaryListItems } from './listItems';
 import Form from './Form';
 import Deposits from './Deposits';
-import GoodList from '../goods/GoodList';
 import GoodsPagination from '../goods/GoodsPagination';
 
 function Copyright() {

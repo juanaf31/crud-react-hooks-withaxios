@@ -80,10 +80,6 @@ TablePaginationActions.propTypes = {
 	rowsPerPage: PropTypes.number.isRequired
 };
 
-function createData(name, calories, fat) {
-	return { name, calories, fat };
-}
-
 const useStyles2 = makeStyles({
 	table: {
 		minWidth: 500
@@ -91,13 +87,15 @@ const useStyles2 = makeStyles({
 });
 
 export default function GoodsPagination() {
-	const { goods, getGoods, removeGoods } = useContext(GlobalContext);
+	const { agoods, getAGoods, goods, getGoods, removeGoods } = useContext(GlobalContext);
 	const [ modal, setModal ] = useState(false);
-	const [ detail, setDetail ] = useState('');
+	const [ detail, setDetail ] = useState([]);
 
-	const handleDetail = (goods) => {
-		setDetail(goods);
+	const handleDetail = (data) => {
+		setDetail(data.goods_id);
 		setModal(true);
+		getAGoods(data.goods_id);
+		// console.log(getAGoods);
 	};
 
 	const handleClose = () => {
@@ -111,11 +109,8 @@ export default function GoodsPagination() {
 	const handleDelete = (id) => {
 		removeGoods(id);
 	};
-	useEffect(() => {
-		getGoods();
-	}, []);
 
-	console.log(goods);
+	// console.log(goods);
 
 	const classes = useStyles2();
 	const [ page, setPage ] = React.useState(0);
@@ -197,7 +192,7 @@ export default function GoodsPagination() {
 					</TableFooter>
 				</Table>
 			</TableContainer>
-			<GoodsEdit modal={modal} detail={detail} closeModal={handleClose} />
+			<GoodsEdit modal={modal} id={detail} closeModal={handleClose} />
 		</div>
 	);
 }

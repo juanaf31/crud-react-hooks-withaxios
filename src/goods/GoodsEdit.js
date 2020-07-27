@@ -11,30 +11,37 @@ import { GlobalContext } from '../variables/GlobalState';
 import { Typography } from '@material-ui/core';
 
 function GoodsEdit(props) {
-	// const { getAGoods } = useContext(GlobalContext);
+	const { agoods, updateGoods } = useContext(GlobalContext);
+
+	const [ disable, setDisable ] = useState(true);
+
+	const [ selected, setSelected ] = useState([]);
+
 	const handleClose = () => {
 		props.closeModal();
+		setDisable(true);
 	};
 
-	const [ detail, setDetail ] = useState({
-		goods_id: '',
-		goods_name: '',
-		goods_quantity: '',
-		goods_capacity: '',
-		warehouse_id: ''
-	});
+	const handleEdit = () => {
+		setDisable(false);
+		console.log('selected', selected);
+	};
+	const handleSave = () => {
+		updateGoods(agoods.goods_id, selected);
+		setDisable(true);
+	};
 
-	useEffect(() => {
-		console.log(props.detail.goods_id);
-		setDetail({
-			goods_id: props.detail.goods_id,
-			goods_name: props.detail.goods_name,
-			goods_quantity: props.detail.goods_quantity,
-			goods_capacity: props.detail.goods_capacity,
-			warehouse_id: props.detail.warehouse_id
-		});
-		console.log(detail);
-	}, []);
+	const handleChange = (key, val) => {
+		setSelected({ ...selected, [key]: val });
+	};
+
+	useEffect(
+		() => {
+			console.log('agoods', agoods);
+			setSelected(agoods);
+		},
+		[ agoods ]
+	);
 
 	return (
 		<div>
@@ -49,62 +56,81 @@ function GoodsEdit(props) {
 						margin="dense"
 						label="Goods ID"
 						variant="outlined"
-						value={props.detail.goods_id}
+						value={selected.goods_id}
 						fullWidth
 					/>
 					<TextField
 						InputProps={{
-							readOnly: true
+							readOnly: disable
 						}}
 						autoFocus
 						margin="dense"
 						label="Goods Name"
 						fullWidth
 						variant="outlined"
-						value={props.detail.goods_name}
+						value={selected.goods_name}
+						onChange={(e) => handleChange('goods_name', e.target.value)}
 					/>
 					<TextField
 						multiline
 						InputProps={{
-							readOnly: true
+							readOnly: disable
 						}}
-						value={props.detail.goods_quantity}
 						autoFocus
 						margin="dense"
 						label="Goods Quantity"
 						fullWidth
 						variant="outlined"
+						value={selected.goods_quantity}
+						onChange={(e) => handleChange('goods_quantity', e.target.value)}
 					/>
 					<TextField
 						multiline
 						InputProps={{
-							readOnly: true
+							readOnly: disable
 						}}
-						value={props.detail.goods_capacity}
 						autoFocus
 						margin="dense"
 						label="Goods Capacity"
 						variant="outlined"
 						fullWidth
+						value={selected.goods_capacity}
+						onChange={(e) => handleChange('goods_capacity', e.target.value)}
 					/>
 					<TextField
 						multiline
 						InputProps={{
-							readOnly: true
+							readOnly: disable
 						}}
-						value={props.detail.warehouse_id}
 						autoFocus
 						margin="dense"
 						label="Warehouse ID"
 						variant="outlined"
 						fullWidth
+						value={selected.warehouse_id}
+						onChange={(e) => handleChange('warehouse_id', e.target.value)}
 					/>
 				</DialogContent>
 				<DialogActions>
-					<Button onClick={handleClose} color="primary">
-						OK
-					</Button>
-					<Button color="primary">Edit</Button>
+					{disable ? (
+						<div>
+							<Button onClick={handleClose} color="primary">
+								OK
+							</Button>
+							<Button color="primary" onClick={handleEdit}>
+								Edit
+							</Button>
+						</div>
+					) : (
+						<div>
+							<Button onClick={handleClose} color="primary">
+								CANCEL
+							</Button>
+							<Button color="primary" onClick={handleSave}>
+								Save
+							</Button>
+						</div>
+					)}
 				</DialogActions>
 			</Dialog>
 		</div>

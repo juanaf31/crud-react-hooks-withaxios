@@ -11,7 +11,7 @@ import { GlobalContext } from '../variables/GlobalState';
 function GoodsCard() {
 	const { addGoods } = useContext(GlobalContext);
 
-	const [ selectedGoods, setSeletedGoods ] = useState({
+	const [ selectedGoods, setSelectedGoods ] = useState({
 		goods_id: '',
 		goods_name: '',
 		goods_quantity: '',
@@ -20,7 +20,7 @@ function GoodsCard() {
 	});
 
 	const handleChange = (key, val) => {
-		setSeletedGoods({ ...selectedGoods, [key]: val });
+		setSelectedGoods({ ...selectedGoods, [key]: val });
 	};
 
 	const handleSubmit = () => {
