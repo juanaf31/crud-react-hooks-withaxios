@@ -51,13 +51,6 @@ export const GlobalProvider = ({ children }) => {
 			});
 	}
 
-	// function editEmployee(employees) {
-	// 	dispatch({
-	// 		type: 'EDIT_EMPLOYEE',
-	// 		payload: employees
-	// 	});
-	// }
-
 	return (
 		<GlobalContext.Provider
 			value={{
@@ -65,7 +58,6 @@ export const GlobalProvider = ({ children }) => {
 				getGoods,
 				removeGoods,
 				addGoods
-				// editEmployee
 			}}
 		>
 			{children}
