@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
@@ -11,66 +11,76 @@ import { GlobalContext } from '../variables/GlobalState';
 function GoodsCard() {
 	const { addGoods } = useContext(GlobalContext);
 
+	const [ selectedGoods, setSeletedGoods ] = useState({
+		goods_id: '',
+		goods_name: '',
+		goods_quantity: '',
+		goods_capacity: '',
+		warehouse_id: ''
+	});
+
+	const handleChange = (key, val) => {
+		setSeletedGoods({ ...selectedGoods, [key]: val });
+	};
+
 	const handleSubmit = () => {
-		let goods_id = document.getElementById('goods_id').value;
-		let goods_name = document.getElementById('goods_name').value;
-		let goods_quantity = document.getElementById('goods_capacity').value;
-		let goods_capacity = document.getElementById('goods_quantity').value;
-		let warehouse_id = document.getElementById('warehouse_id').value;
-
-		const newBody = {
-			goods_id: goods_id,
-			goods_name: goods_name,
-			goods_quantity: goods_quantity,
-			goods_capacity: goods_capacity,
-			warehouse_id: warehouse_id
-		};
-
-		addGoods(newBody);
+		addGoods(selectedGoods);
 	};
 	return (
 		<div>
 			<Card>
 				<CardContent>
 					<Grid>
-						<TextField
-							style={{ marginRight: '20px', marginBottom: '20px' }}
-							id="goods_id"
-							label="Goods ID"
-							variant="outlined"
-						/>
+						<form onSubmit={handleSubmit}>
+							<TextField
+								value={selectedGoods.goods_id}
+								style={{ marginRight: '20px', marginBottom: '20px' }}
+								id="goods_id"
+								label="Goods ID"
+								variant="outlined"
+								onChange={(e) => handleChange('goods_id', e.target.value)}
+							/>
 
-						<TextField
-							style={{ marginBottom: '20px' }}
-							id="goods_name"
-							label="Goods Name"
-							variant="outlined"
-						/>
-						<br />
-						<TextField
-							style={{ marginRight: '20px', marginBottom: '20px' }}
-							id="goods_quantity"
-							label="Goods Quantity"
-							variant="outlined"
-						/>
+							<TextField
+								value={selectedGoods.goods_name}
+								style={{ marginBottom: '20px' }}
+								id="goods_name"
+								label="Goods Name"
+								variant="outlined"
+								onChange={(e) => handleChange('goods_name', e.target.value)}
+							/>
+							<br />
+							<TextField
+								value={selectedGoods.goods_quantity}
+								style={{ marginRight: '20px', marginBottom: '20px' }}
+								id="goods_quantity"
+								label="Goods Quantity"
+								variant="outlined"
+								onChange={(e) => handleChange('goods_quantity', e.target.value)}
+							/>
 
-						<TextField
-							style={{ marginBottom: '20px' }}
-							id="goods_capacity"
-							label="Goods Capacity"
-							variant="outlined"
-						/>
-						<br />
-						<TextField
-							style={{ width: '60%', marginBottom: '20px' }}
-							id="warehouse_id"
-							label="Warehouse ID"
-							variant="outlined"
-						/>
-						<br />
-						<Button variant="contained" color="primary" onClick={handleSubmit}>
-							ADD
-						</Button>
+							<TextField
+								value={selectedGoods.goods_capacity}
+								style={{ marginBottom: '20px' }}
+								id="goods_capacity"
+								label="Goods Capacity"
+								variant="outlined"
+								onChange={(e) => handleChange('goods_capacity', e.target.value)}
+							/>
+							<br />
+							<TextField
+								value={selectedGoods.warehouse_id}
+								style={{ width: '60%', marginBottom: '20px' }}
+								id="warehouse_id"
+								label="Warehouse ID"
+								variant="outlined"
+								onChange={(e) => handleChange('warehouse_id', e.target.value)}
+							/>
+							<br />
+							<Button variant="contained" color="primary" type="submit">
+								ADD
+							</Button>
+						</form>
 					</Grid>
 				</CardContent>
 			</Card>

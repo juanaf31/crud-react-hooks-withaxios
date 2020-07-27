@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -7,9 +7,21 @@ import TableRow from '@material-ui/core/TableRow';
 import Title from '../dashboard/Title';
 import Button from '@material-ui/core/Button';
 import { GlobalContext } from '../variables/GlobalState';
+import GoodsEdit from './GoodsEdit';
 
 const GoodList = () => {
 	const { goods, getGoods, removeGoods } = useContext(GlobalContext);
+	const [ modal, setModal ] = useState(false);
+	const [ detail, setDetail ] = useState('');
+
+	const handleDetail = (goods) => {
+		setDetail(goods);
+		setModal(true);
+	};
+
+	const handleClose = () => {
+		setModal(false);
+	};
 
 	useEffect(() => {
 		getGoods();
@@ -22,7 +34,7 @@ const GoodList = () => {
 	if (goods.length) {
 		return (
 			<div>
-				<Title>Goods</Title>
+				<Title>Goods Lists</Title>
 				<Table size="small">
 					<TableHead>
 						<TableRow>
@@ -43,7 +55,7 @@ const GoodList = () => {
 								<TableCell>{goods.goods_capacity}</TableCell>
 								<TableCell>{goods.warehouse_id}</TableCell>
 								<TableCell align="right">
-									<Button variant="contained" color="primary">
+									<Button onClick={() => handleDetail(goods)} variant="contained" color="primary">
 										Edit
 									</Button>
 									<Button
@@ -58,6 +70,7 @@ const GoodList = () => {
 						))}
 					</TableBody>
 				</Table>
+				<GoodsEdit modal={modal} detail={detail} closeModal={handleClose} />
 			</div>
 		);
 	} else {

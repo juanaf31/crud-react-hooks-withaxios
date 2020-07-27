@@ -2,7 +2,8 @@ import React, { createContext, useReducer } from 'react';
 import AppReducer from '../reducer/AppReducer';
 import axios from 'axios';
 const initialState = {
-	goods: []
+	goods: [],
+	agoods: []
 };
 
 export const GlobalContext = createContext(initialState);
@@ -19,6 +20,16 @@ export const GlobalProvider = ({ children }) => {
 				throw error;
 			});
 	}
+	// function getAGoods(id) {
+	// 	const tes = axios
+	// 		.get(`/goods/${id}`)
+	// 		.then((response) => {
+	// 			dispatch({ type: 'RECEIVE_AGOODS', payload: response.data.data });
+	// 		})
+	// 		.catch((error) => {
+	// 			throw error;
+	// 		});
+	// }
 
 	function removeGoods(id) {
 		const tes = axios

@@ -22,6 +22,7 @@ import { mainListItems, secondaryListItems } from './listItems';
 import Form from './Form';
 import Deposits from './Deposits';
 import GoodList from '../goods/GoodList';
+import GoodsPagination from '../goods/GoodsPagination';
 
 function Copyright() {
 	return (
@@ -183,7 +184,7 @@ export default function Dashboard() {
 						{/* Recent Orders */}
 						<Grid item xs={12}>
 							<Paper className={classes.paper}>
-								<GoodList />
+								<GoodsPagination />
 							</Paper>
 						</Grid>
 					</Grid>
